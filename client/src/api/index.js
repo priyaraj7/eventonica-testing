@@ -15,3 +15,10 @@ export const getUsersApi = async () => {
   const user = await response.json();
   return user;
 };
+
+export const deleteUserApi = async (deleteUser) => {
+  let response = await fetch(`http://localhost:4000/users/${deleteUser}`, {
+    method: "DELETE",
+  });
+  await response.json();
+};

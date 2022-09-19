@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
-import {addUserApi, getUsersApi} from "../api"
+import { addUserApi, getUsersApi, deleteUserApi } from "../api";
 
-const Users= ({handleSubmit})=> {
+const Users = ({ handleSubmit }) => {
   const [users, setUsers] = useState([]);
 
   const [name, setName] = useState("");
@@ -12,11 +12,10 @@ const Users= ({handleSubmit})=> {
 
   // client/src/components/Users.js
   const getUsers = async () => {
-    
     setUsers(await getUsersApi());
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     getUsers();
   }, []);
 
@@ -26,23 +25,20 @@ const Users= ({handleSubmit})=> {
     e.preventDefault();
     const newUser = { id, name, email };
     //console.log(newUser)
-   
-const response = await addUserApi(newUser)
-  console.log(response)
+
+    const response = await addUserApi(newUser);
+    console.log(response);
     setUsers([...users, response]);
     setName("");
     setEmail("");
     setId("");
   };
-  // DeleteUser
+
   // Delete user
   const handleDeleteUser = async (deleteUser) => {
     // Simple DELETE HTTP request with async await
 
-    let response = await fetch(`http://localhost:4000/users/${deleteUser}`, {
-      method: "DELETE"
-    });
-    await response.json();
+    deleteUserApi(deleteUser);
     // delete functionality
     const deleteUsers = users.filter((user) => user.id !== deleteUser);
     console.log(deleteUsers);
@@ -67,7 +63,12 @@ const response = await addUserApi(newUser)
           <td>{user.email}</td>
 
           <td className="deleteUserButton">
-            <button onClick={() => handleDeleteUser(user.id)}>Delete</button>
+            <button
+              data-testid={`delete-user-id-${user.id}`}
+              onClick={() => handleDeleteUser(user.id)}
+            >
+              Delete
+            </button>
           </td>
         </tr>
       );
@@ -88,13 +89,18 @@ const response = await addUserApi(newUser)
 
       <div>
         <h3>Add User</h3>
-        <form id="add-user" data-testid = "user-form" action="#" onSubmit={handleAddOnSubmit}>
+        <form
+          id="add-user"
+          data-testid="user-form"
+          action="#"
+          onSubmit={handleAddOnSubmit}
+        >
           <fieldset>
             <label>Name</label>
             <input
               type="text"
               id="add-user-name"
-              data-testid = "add-user-name"
+              data-testid="add-user-name"
               value={name}
               onChange={(e) => setName(e.target.value)}
               required
@@ -104,18 +110,18 @@ const response = await addUserApi(newUser)
             <input
               type="email"
               id="add-user-email"
-              data-testid = "add-user-email"
+              data-testid="add-user-email"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </fieldset>
-         
+
           <input type="submit" value="Add" />
         </form>
       </div>
     </section>
   );
-}
+};
 
 export default Users;

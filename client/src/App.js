@@ -13,7 +13,7 @@ function App() {
       <main>
         <div className="user-and-events">
           <Users />
-          <Events />
+          {/* <Events /> */}
         </div>
       </main>
 
