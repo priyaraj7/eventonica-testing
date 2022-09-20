@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { addUserApi, getUsersApi, deleteUserApi } from "../api";
+import { addUserApi, getUsersApi, deleteUserApi } from "../../api";
 
 const Users = ({ handleSubmit }) => {
   const [users, setUsers] = useState([]);
@@ -57,20 +57,22 @@ const Users = ({ handleSubmit }) => {
   const renderBody = () => {
     return users.map((user) => {
       return (
-        <tr key={user.id}>
-          <td>{user.id}</td>
-          <td>{user.name}</td>
-          <td>{user.email}</td>
+        <tbody key={user.id}>
+          <tr>
+            <td>{user.id}</td>
+            <td>{user.name}</td>
+            <td>{user.email}</td>
 
-          <td className="deleteUserButton">
-            <button
-              data-testid={`delete-user-id-${user.id}`}
-              onClick={() => handleDeleteUser(user.id)}
-            >
-              Delete
-            </button>
-          </td>
-        </tr>
+            <td className="deleteUserButton">
+              <button
+                data-testid={`delete-user-id-${user.id}`}
+                onClick={() => handleDeleteUser(user.id)}
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
       );
     });
   };
@@ -84,7 +86,7 @@ const Users = ({ handleSubmit }) => {
         <thead>
           <tr>{renderHeader()}</tr>
         </thead>
-        <tbody>{renderBody()}</tbody>
+        {renderBody()}
       </table>
 
       <div>
@@ -96,7 +98,7 @@ const Users = ({ handleSubmit }) => {
           onSubmit={handleAddOnSubmit}
         >
           <fieldset>
-            <label>Name</label>
+            <label htmlFor="name">Name</label>
             <input
               type="text"
               id="add-user-name"
@@ -106,18 +108,20 @@ const Users = ({ handleSubmit }) => {
               required
             />
 
-            <label>Email</label>
+            <label htmlFor="email">Email</label>
             <input
               type="email"
               id="add-user-email"
               data-testid="add-user-email"
+              aria-required="true"
+              aria-invalid="false"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
               required
             />
           </fieldset>
 
-          <input type="submit" value="Add" />
+          <input type="submit" value="Add" disabled={!name || !email} />
         </form>
       </div>
     </section>

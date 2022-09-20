@@ -1,8 +1,8 @@
 // import calendar from "./calendar.png";
 import "./App.css";
 import Header from "./components/Header";
-import Users from "./components/Users";
-import Events from "./components/Events";
+import Users from "./components/users/Users";
+// import Events from "./components/Events";
 import Footer from "./components/Footer";
 
 function App() {
@@ -13,7 +13,6 @@ function App() {
       <main>
         <div className="user-and-events">
           <Users />
-          {/* <Events /> */}
         </div>
       </main>
 
