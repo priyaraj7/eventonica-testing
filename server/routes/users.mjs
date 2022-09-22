@@ -3,12 +3,6 @@ import db from "../db/db-connection.js";
 
 const router = express.Router();
 
-let mockUsers = [
-  { id: 1, name: "Marlin", email: "marlin@gmail.com" },
-  { id: 2, name: "Nemo", email: "nemo@gmail.com" },
-  { id: 3, name: "Dory", email: "dory@gmail.com" }
-];
-
 /* GET users listing. */
 router.get("/", async function (req, res, next) {
   try {
@@ -24,9 +18,9 @@ router.get("/", async function (req, res, next) {
 router.post("/", async (req, res) => {
   const user = {
     name: req.body.name,
-    email: req.body.email
+    email: req.body.email,
   };
-  console.log(user);
+  //console.log(user);
   try {
     const createdUser = await db.one(
       "INSERT INTO users(name, email) VALUES($1, $2) RETURNING *",
