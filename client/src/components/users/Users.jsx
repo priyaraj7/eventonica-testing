@@ -86,6 +86,7 @@ const Users = ({ handleSubmit }) => {
         <thead>
           <tr>{renderHeader()}</tr>
         </thead>
+
         {renderBody()}
       </table>
 
@@ -98,7 +99,7 @@ const Users = ({ handleSubmit }) => {
           onSubmit={handleAddOnSubmit}
         >
           <fieldset>
-            <label htmlFor="name">Name</label>
+            <label htmlFor="add-user-name">Name</label>
             <input
               type="text"
               id="add-user-name"
@@ -108,7 +109,7 @@ const Users = ({ handleSubmit }) => {
               required
             />
 
-            <label htmlFor="email">Email</label>
+            <label htmlFor="add-user-email">Email</label>
             <input
               type="email"
               id="add-user-email"

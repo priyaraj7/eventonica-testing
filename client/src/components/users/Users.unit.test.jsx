@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen } from "@testing-library/react";
 //User-event dispatches the events like they would happen if a user interacted with the document.
 import userEvent from "@testing-library/user-event";
 import Users from "./Users";
@@ -24,15 +24,6 @@ describe("should render text in <Users /> component", () => {
 });
 
 describe("should render form  and form element", () => {
-  it("renders user form and submit button correctly", () => {
-    render(<Users />);
-    expect(screen.getByTestId("user-form")).toBeInTheDocument();
-
-    let buttonElement = screen.getByRole("button", {
-      name: /add/i,
-    });
-    expect(buttonElement).toBeInTheDocument();
-  });
   it("render name input", () => {
     render(<Users />);
 
@@ -68,18 +59,19 @@ describe("should render form  and form element", () => {
 
   it("submit button should be disabled when Name is empty & should not disable when name field is not empty", () => {
     render(<Users />);
-    const inputElName = screen.getByTestId("add-user-email");
+    const inputElName = screen.getByLabelText("Name");
+    const inputElEmail = screen.getByLabelText("Email");
     let buttonElement = screen.getByRole("button", {
       name: /add/i,
     });
-    fireEvent.change(inputElName, { target: { value: "" } });
 
     expect(buttonElement).toHaveAttribute("disabled");
     // screen.debug(buttonElement);
 
     // This is also not working
-    // fireEvent.change(inputElName, { target: { value: "John Doe" } });
-    // screen.debug(buttonElement);
-    // expect(buttonElement).not.toHaveAttribute("disabled");
+    userEvent.type(inputElName, "John Doe");
+    userEvent.type(inputElEmail, "John@gmail.com");
+
+    expect(buttonElement).not.toHaveAttribute("disabled");
   });
 });
